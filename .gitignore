@@ -1,32 +1,92 @@
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-#
-# Binaries for programs and plugins
+# Binários e arquivos compilados
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
 
-# Test binary, built with `go test -c`
+# Arquivos de teste binários
 *.test
 
-# Code coverage profiles and other test artifacts
-*.out
-coverage.*
-*.coverprofile
-profile.cov
+# Arquivos de output de compilação
+/dist
+/bin
+/out
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# Diretório de dependências vendor
+/vendor/
 
-# Go workspace file
-go.work
-go.work.sum
-
-# env file
+# Arquivos de configuração local
 .env
+.env.local
+.env.*.local
 
-# Editor/IDE
-# .idea/
-# .vscode/
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# VS Code específico
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Arquivos de histórico local
+.history
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+*.log
+logs/
+
+# Cache do Go
+/go/pkg/
+/go/bin/
+
+# Cache de módulos Go
+/.gomod/
+
+# Coverage
+coverage.txt
+coverage.html
+*.out
+
+# Arquivos temporários
+/tmp
+/temp
+
+# Arquivos de documentação gerados
+/doc/
+/docs/gen/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de configuração específicos do projeto (se houver)
+config.local.yaml
+config.local.yml
+config.local.json
+
+# Build artifacts
+/build/
+*.tar.gz
+*.zip
+
+# Profiling output
+*.pprof
+*.prof
+
+# Binários específicos do projeto
+/main
+/app
+/server
