@@ -1,19 +1,34 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/rodrigues-daniel/schema-registry/internal/handlers"
 )
 
 func main() {
+	r := chi.NewRouter()
 
-	route := chi.NewRouter()
+	r.Get("/", handleHome)
 
-	h := handlers.NewSchemaHandler()
+	r.Get("/ola/{nome}", handleOla)
 
-	route.Post("/schema", h.CommpareSchema)
+	fmt.Println("Servidor iniciado na porta :8080")
+	http.ListenAndServe(":8080", r)
+}
 
-	http.ListenAndServe(":8080", route)
+func handleHome(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Bem-vindo ao serviço de exemplo!"))
+}
+
+func handleOla(w http.ResponseWriter, r *http.Request) {
+
+	nome := chi.URLParam(r, "nome")
+
+	mensagem := fmt.Sprintf("Olá, %s!", nome)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(mensagem))
 }
