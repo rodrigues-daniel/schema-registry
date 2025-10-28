@@ -4,15 +4,16 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/rodrigues-daniel/schema-registry/cmd/handlers"
+	"github.com/rodrigues-daniel/schema-registry/internal/handlers"
 )
 
 func main() {
 
-	r := chi.NewRouter()
+	route := chi.NewRouter()
 
-	b := handlers.NewSchemaRegistryHandler()
-	r.Get("/", b.RequestSchemaInfo)
+	h := handlers.NewSchemaHandler()
 
-	http.ListenAndServe(":8080", r)
+	route.Post("/schema", h.CommpareSchema)
+
+	http.ListenAndServe(":8080", route)
 }
