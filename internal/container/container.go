@@ -8,7 +8,7 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/rodrigues-daniel/schema-registry/internal/config"
-	"github.com/rodrigues-daniel/schema-registry/internal/domain"
+	"github.com/rodrigues-daniel/schema-registry/internal/handlers"
 	"github.com/rodrigues-daniel/schema-registry/internal/repositories"
 	"github.com/rodrigues-daniel/schema-registry/internal/services"
 	"github.com/rodrigues-daniel/schema-registry/internal/validation"
@@ -18,11 +18,12 @@ type Container struct {
 	Config *config.Config
 	DB     *sql.DB
 	// UserRepo      domain.UserRepository
-	SchemaRepo domain.SchemaRepository
+	SchemaRepo repositories.SchemaRepository
 	Validator  *validation.DatabaseSchemaValidator
 	// UserService   domain.UserService
-	SchemaService domain.SchemaService
+	// SchemaService *services.SchemaService
 	// UserHandler   *handlers.UserHandler
+	SchemaHandler *handlers.SchemaHandler
 }
 
 func NewContainer(cfg *config.Config) (*Container, error) {
@@ -54,6 +55,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	schemaService := services.NewSchemaService(schemaRepo, validator)
 
 	// userHandler := handlers.NewUserHandler(userService)
+	schemaHandler := handlers.NewSchemaHandler(schemaService)
 
 	return &Container{
 		Config: cfg,
@@ -62,8 +64,9 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		SchemaRepo: schemaRepo,
 		Validator:  validator,
 		// UserService:   userService,
-		SchemaService: schemaService,
+		// SchemaService: schemaService,
 		// UserHandler:   userHandler,
+		SchemaHandler: schemaHandler,
 	}, nil
 }
 
