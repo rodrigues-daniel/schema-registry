@@ -32,7 +32,7 @@ func main() {
 
 	// Criar bucket KV para schemas
 	kv, err := js.CreateKeyValue(&nats.KeyValueConfig{
-		Bucket:   "schema-registry",
+		Bucket:   "schemadb",
 		TTL:      0, // Permanent
 		Storage:  nats.FileStorage,
 		Replicas: 1,

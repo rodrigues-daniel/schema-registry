@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/rodrigues-daniel/data-platform/internal/dtos"
+	"github.com/rodrigues-daniel/data-platform/internal/mappers"
 	"github.com/rodrigues-daniel/data-platform/internal/schema"
 
 	"github.com/rodrigues-daniel/data-platform/internal/models"
@@ -22,12 +24,14 @@ func NewHandlers(registry *schema.Registry) *Handlers {
 
 // RegisterSchemaHandler registra novo schema
 func (h *Handlers) RegisterSchemaHandler(w http.ResponseWriter, r *http.Request) {
-	var schema models.Schema
-	if err := json.NewDecoder(r.Body).Decode(&schema); err != nil {
+	var schemaDTO dtos.CreateSchemaRequest
+	if err := json.NewDecoder(r.Body).Decode(&schemaDTO); err != nil {
 		h.sendError(w, http.StatusBadRequest, "Invalid request body")
 		return
 	}
 
+	var schema models.Schema
+	schema = mappers.MapCreateSchemaRequestToModel(schemaDTO)
 	registeredSchema, err := h.registry.RegisterSchema(r.Context(), &schema)
 	if err != nil {
 		h.sendError(w, http.StatusBadRequest, err.Error())
