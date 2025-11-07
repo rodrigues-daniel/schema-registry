@@ -44,14 +44,14 @@ func (s *Storage) SaveSchema(ctx context.Context, schema *models.Schema) error {
 	}
 
 	// Salvar no KV store
-	key := fmt.Sprintf("schemas:%s:%d", schema.Subject, schema.Version)
+	key := fmt.Sprintf("schemas.%s.%d", schema.Subject, schema.Version)
 	_, err = s.kv.Put(key, data)
 	if err != nil {
 		return fmt.Errorf("failed to save schema: %w", err)
 	}
 
 	// Salvar metadata separadamente para busca rápida
-	metadataKey := fmt.Sprintf("metadata:%s", schema.ID)
+	metadataKey := fmt.Sprintf("metadata.%s", schema.ID)
 	metadata := map[string]interface{}{
 		"subject":    schema.Subject,
 		"version":    schema.Version,
@@ -68,7 +68,7 @@ func (s *Storage) SaveSchema(ctx context.Context, schema *models.Schema) error {
 
 // GetSchema obtém um schema específico
 func (s *Storage) GetSchema(ctx context.Context, subject string, version int) (*models.Schema, error) {
-	key := fmt.Sprintf("schemas:%s:%d", subject, version)
+	key := fmt.Sprintf("schemas.%s.%d", subject, version)
 
 	entry, err := s.kv.Get(key)
 	if err != nil {
@@ -111,7 +111,7 @@ func (s *Storage) GetLatestSchema(ctx context.Context, subject string) (*models.
 
 // GetSchemaVersions lista todas as versões de um subject
 func (s *Storage) GetSchemaVersions(ctx context.Context, subject string) ([]int, error) {
-	prefix := fmt.Sprintf("schemas:%s:", subject)
+	prefix := fmt.Sprintf("schemas.%s.", subject)
 
 	keys, err := s.kv.Keys()
 	if err != nil {
@@ -165,12 +165,12 @@ func (s *Storage) ListSubjects(ctx context.Context) ([]string, error) {
 
 // DeleteSchema deleta um schema
 func (s *Storage) DeleteSchema(ctx context.Context, subject string, version int) error {
-	key := fmt.Sprintf("schemas:%s:%d", subject, version)
+	key := fmt.Sprintf("schemas.%s.%d", subject, version)
 
 	// Obter schema para remover metadata
 	schema, err := s.GetSchema(ctx, subject, version)
 	if err == nil {
-		metadataKey := fmt.Sprintf("metadata:%s", schema.ID)
+		metadataKey := fmt.Sprintf("metadata.%s", schema.ID)
 		s.kv.Delete(metadataKey)
 	}
 
@@ -188,14 +188,14 @@ func (s *Storage) SaveConfig(ctx context.Context, config *models.SchemaConfig) e
 		return fmt.Errorf("failed to marshal config: %w", err)
 	}
 
-	key := fmt.Sprintf("subjects:%s:config", config.Subject)
+	key := fmt.Sprintf("subjects.%s.config", config.Subject)
 	_, err = s.kv.Put(key, data)
 	return err
 }
 
 // GetConfig obtém configuração de compatibilidade
 func (s *Storage) GetConfig(ctx context.Context, subject string) (*models.SchemaConfig, error) {
-	key := fmt.Sprintf("subjects:%s:config", subject)
+	key := fmt.Sprintf("subjects.%s.config", subject)
 
 	entry, err := s.kv.Get(key)
 	if err != nil {
@@ -220,7 +220,7 @@ func (s *Storage) GetConfig(ctx context.Context, subject string) (*models.Schema
 // GetSchemaByID obtém schema por ID
 func (s *Storage) GetSchemaByID(ctx context.Context, schemaID string) (*models.Schema, error) {
 	// Primeiro buscar metadata
-	metadataKey := fmt.Sprintf("metadata:%s", schemaID)
+	metadataKey := fmt.Sprintf("metadata.%s", schemaID)
 	entry, err := s.kv.Get(metadataKey)
 	if err != nil {
 		return nil, fmt.Errorf("schema not found: %s", schemaID)
