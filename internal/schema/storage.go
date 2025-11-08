@@ -149,7 +149,7 @@ func (s *Storage) ListSubjects(ctx context.Context) ([]string, error) {
 	subjects := make(map[string]bool)
 	for _, key := range keys {
 		var subject string
-		if _, err := fmt.Sscanf(key, "schemas:%s:", &subject); err == nil {
+		if _, err := fmt.Sscanf(key, "schemas.%s.", &subject); err == nil {
 			subjects[subject] = true
 		}
 	}
