@@ -59,10 +59,10 @@ make run
 
 ```bash
 # Iniciar stack completa
-make docker-up
+make docker-up ou  docker compose up -d
 
 # Verificar status
-docker-compose ps
+docker compose ps
 ```
 
 ### 3️⃣ Acessos
