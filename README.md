@@ -83,8 +83,6 @@ docker compose ps
 
 ```bash
 curl http://localhost:8080/health   # Básico
-curl http://localhost:8080/ready    # Readiness probe
-curl http://localhost:8080/live     # Liveness probe
 ```
 
 ### Gerenciamento de Schemas
