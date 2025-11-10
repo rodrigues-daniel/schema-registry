@@ -48,6 +48,7 @@ Um **Schema Registry completo** com:
 git clone <seu-repositorio>
 cd schema-registry
 
+# se tiver o bin utils com make instalado
 # Build da aplicação
 make build
 
@@ -71,7 +72,7 @@ docker compose ps
 |----------|-----|
 | API | [http://localhost:8080](http://localhost:8080) |
 | Prometheus | [http://localhost:9090](http://localhost:9090) |
-| Grafana | [http://localhost:3000](http://localhost:3000) — *(login: admin / admin123)* |
+| Grafana | [http://localhost:3000](http://localhost:3000) — *(login: admin / admin)* |
 | NATS Monitoring | [http://localhost:8222](http://localhost:8222) |
 
 ---
