@@ -1,92 +1,159 @@
-# Binários e arquivos compilados
+# 🐹 Binários do Go
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
+bin/
+dist/
 
-# Arquivos de teste binários
-*.test
+# 📦 Diretório de binários quando usando go install
+**/bin/
 
-# Arquivos de output de compilação
-/dist
-/bin
-/out
+# 🔨 Diretório de build
+build/
 
-# Diretório de dependências vendor
-/vendor/
+# 📁 Diretórios específicos do projeto
+/coverage.txt
+/coverage.html
 
-# Arquivos de configuração local
+# 🗂️ Diretórios de dependências
+vendor/
+**/vendor/
+
+# 📝 Arquivos de configuração local
 .env
 .env.local
 .env.*.local
+!.env.example
 
-# Arquivos de IDE
+# 🔐 Arquivos sensíveis
+*.key
+*.pem
+*.crt
+*.csr
+config/local*.yaml
+config/local*.yml
+config/local*.json
+secrets/
+
+# 🐳 Docker
+.dockerignore
+docker-compose.override.yml
+
+# 🗄️ Dados do JetStream/NATS
+**/jetstream/
+**/nats-data/
+**/nats-js/
+/data/
+**/*.dat
+**/*.idx
+*.dat
+*.idx
+
+# 📊 Métricas e logs
+*.log
+logs/
+**/logs/
+/metrics
+**/metrics
+
+# 🔧 IDE/Editor
+# VS Code
 .vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# VS Code específico
-.vscode/*
+!.vscode/extensions.json
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-!.vscode/*.code-snippets
 
-# Arquivos de histórico local
-.history
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
 
-# Logs
-*.log
-logs/
+# GoLand
+.idea/
 
-# Cache do Go
-/go/pkg/
-/go/bin/
+# Sublime Text
+*.sublime-*
 
-# Cache de módulos Go
-/.gomod/
+# 📚 Documentação
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
 
-# Coverage
-coverage.txt
-coverage.html
+# 🧪 Testes
+**/*.test
+**/__pycache__/
+*.prof
 *.out
 
-# Arquivos temporários
-/tmp
-/temp
+# 📦 Go Module
+go.work
+go.work.sum
 
-# Arquivos de documentação gerados
-/doc/
-/docs/gen/
+# 🏗️ Build artifacts
+/pkg/
+/**/pkg/
 
-# Arquivos de sistema
+# 📈 Coverage
+coverage.out
+coverage.txt
+*.coverprofile
+*.cover
+
+# 🔄 Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# 🐙 GitHub
+!.github/
+
+# 🚀 Binários específicos do projeto
+/schema-registry
+/schema-registry.exe
+
+# 📁 Diretórios de desenvolvimento
+dev/
+development/
+staging/
+
+# 📊 Database files (caso use)
+*.db
+*.sqlite
+*.sqlite3
+
+# 📄 Certificates (SSL/TLS)
+*.cer
+*.pfx
+*.p12
+
+# 🔍 Debug files
+debug/
+*.debug
+
+# 🧹 OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Arquivos de configuração específicos do projeto (se houver)
-config.local.yaml
-config.local.yml
-config.local.json
+# 🐧 Linux
+*~
 
-# Build artifacts
-/build/
-*.tar.gz
-*.zip
+# 🪟 Windows
+[Tt]humbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
-# Profiling output
-*.pprof
-*.prof
-
-# Binários específicos do projeto
-/main
-/app
-/server
+# 🍎 macOS
+.AppleDouble
+.LSOverride
