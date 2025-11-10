@@ -19,6 +19,17 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
+type JetStreamAdapter struct {
+	js nats.JetStreamContext
+}
+
+func (a *JetStreamAdapter) Publish(subj string, data []byte) error {
+
+	err := error(nil)
+	_, err = a.js.Publish(subj, data)
+	return err
+}
+
 func main() {
 	// Inicializar NATS com JetStream
 	js, kv, nc, ns := initializeNATSWithJetStream()
@@ -163,7 +174,11 @@ func createOrGetKVBucket(js nats.JetStreamContext, bucketName string) (nats.KeyV
 
 // initializeRegistry configura o schema registry
 func initializeRegistry(js nats.JetStreamContext, kv nats.KeyValue) *schema.Registry {
-	registry := schema.NewRegistry(kv, js)
+	storage := schema.NewStorage(kv)
+	validator := schema.NewValidator(storage)
+	njs := &JetStreamAdapter{js: js}
+
+	registry := schema.NewRegistry(storage, validator, njs)
 	log.Println("Schema Registry inicializado com sucesso")
 	return registry
 }

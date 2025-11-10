@@ -8,22 +8,21 @@ import (
 	"time"
 
 	"github.com/rodrigues-daniel/data-platform/internal/models"
-
-	"github.com/nats-io/nats.go"
 )
 
 type Registry struct {
-	storage   *Storage
-	validator *Validator
-	js        nats.JetStreamContext
+	storage   StorageSchema
+	validator ValidatorSchema
+	js        JetStream
 }
 
-func NewRegistry(kv nats.KeyValue, js nats.JetStreamContext) *Registry {
-	storage := NewStorage(kv)
-	validator := NewValidator(storage)
+func NewRegistry(
+	storageSchema StorageSchema,
+	validator ValidatorSchema,
+	js JetStream) *Registry {
 
 	return &Registry{
-		storage:   storage,
+		storage:   storageSchema,
 		validator: validator,
 		js:        js,
 	}
@@ -165,6 +164,6 @@ func (r *Registry) publishSchemaEvent(ctx context.Context, event *models.SchemaE
 	}
 
 	subject := fmt.Sprintf("schema.events.%s", event.Subject)
-	_, err = r.js.Publish(subject, data)
+	err = r.js.Publish(subject, data)
 	return err
 }
