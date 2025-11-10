@@ -1,7 +1,7 @@
 services:
-  # Schema Registry Application with Embedded NATS
+
   schema-registry:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     container_name: schema-registry
@@ -11,41 +11,27 @@ services:
       - "4222:4222"  # NATS Client Port
       - "8222:8222"  # NATS Monitoring
     environment:
-      # NATS Embedded Configuration
       - NATS_SERVER_NAME=schema-registry-embedded
       - NATS_STORE_DIR=/data/jetstream
       - NATS_HOST=0.0.0.0
       - NATS_PORT=4222
       - NATS_HTTP_PORT=8222
-      
-      # Application Configuration
       - HTTP_PORT=:8080
       - APP_VERSION=1.0.0
-      
-      # Observability Configuration
       - METRICS_ENABLED=true
       - METRICS_PATH=/metrics
       - LOG_LEVEL=info
       - LOG_FORMAT=json
-      
-      # Compatibility Configuration
       - COMPATIBILITY_LEVEL=BACKWARD
-      
-      # Development
       - DEBUG=false
     volumes:
       - schema_registry_data:/data
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    restart: unless-stopped
     networks:
       - monitoring
+    restart: unless-stopped
 
-  # Prometheus - Metrics Collection
+
+  # 📈 Prometheus
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -56,74 +42,20 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention.time=15d'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
     volumes:
       - prometheus_data:/prometheus
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    environment:
-      - PROMETHEUS_LOG_LEVEL=info
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    restart: unless-stopped
+      - ./prometheus:/etc/prometheus:ro
     networks:
       - monitoring
     depends_on:
       - schema-registry
-
-  # Grafana - Dashboards and Visualization
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    hostname: grafana
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin123
-      - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_INSTALL_PLUGINS=grafana-clock-panel
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./config/grafana-datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     restart: unless-stopped
-    networks:
-      - monitoring
-    depends_on:
-      - prometheus
-
-  # cAdvisor - Container Metrics
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
-    container_name: cadvisor
-    hostname: cadvisor
-    ports:
-      - "8088:8080"
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:ro
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    privileged: true
-    restart: unless-stopped
-    networks:
-      - monitoring
 
 volumes:
   schema_registry_data:
     driver: local
   prometheus_data:
-    driver: local
-  grafana_data:
     driver: local
 
 networks:

@@ -20,18 +20,23 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o schema-registry ./cmd/serv
 # ---------------------------
 FROM alpine:3.20
 
-# Adiciona um usuário não root (boa prática de segurança)
-RUN adduser -D appuser
+# Cria usuário e diretórios COM a flag -u para definir UID/GID
+RUN adduser -D -u 1000 appuser
+
+# Cria diretório de dados com permissões corretas
+RUN mkdir -p /data/jetstream && \
+    chown -R appuser:appuser /data
 
 WORKDIR /app
 
 # Copia apenas o binário da etapa anterior
-COPY --from=builder /app/schema-registry .
+COPY --from=builder --chown=appuser:appuser /app/schema-registry .
 
 # Usa o usuário não root
 USER appuser
 
-EXPOSE 8080
+# Expõe TODAS as portas que sua aplicação usa
+EXPOSE 8080 4222 8222
 
 # Comando padrão
 ENTRYPOINT ["./schema-registry"]

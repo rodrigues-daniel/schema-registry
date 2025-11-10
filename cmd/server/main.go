@@ -11,12 +11,31 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rodrigues-daniel/data-platform/internal/api"
 	"github.com/rodrigues-daniel/data-platform/internal/schema"
 
 	"github.com/gorilla/mux"
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
+)
+
+var (
+	requestsTotal = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Name: "http_requests_total",
+			Help: "Número total de requisições recebidas.",
+		},
+	)
+
+	requestDuration = prometheus.NewHistogram(
+		prometheus.HistogramOpts{
+			Name:    "http_request_duration_seconds",
+			Help:    "Duração das requisições HTTP.",
+			Buckets: prometheus.DefBuckets,
+		},
+	)
 )
 
 type JetStreamAdapter struct {
@@ -31,6 +50,10 @@ func (a *JetStreamAdapter) Publish(subj string, data []byte) error {
 }
 
 func main() {
+	// Registra as métricas no registro padrão
+	prometheus.MustRegister(requestsTotal)
+	prometheus.MustRegister(requestDuration)
+
 	// Inicializar NATS com JetStream
 	js, kv, nc, ns := initializeNATSWithJetStream()
 	defer cleanupNATS(nc, ns)
@@ -43,6 +66,7 @@ func main() {
 	demonstrateKVUsage(kv)
 
 	// Iniciar servidores e aguardar shutdown
+
 	startServers(server)
 }
 
@@ -262,6 +286,8 @@ func setupAPIRoutes(router *mux.Router, handlers *api.Handlers) {
 	// Rotas de Compatibilidade
 	router.HandleFunc("/compatibility/subjects/{subject}/versions", handlers.CompatibilityHandler).Methods("POST")
 	router.HandleFunc("/validate/{subject}", handlers.ValidateHandler).Methods("POST")
+
+	router.Handle("/metrics", promhttp.Handler()).Methods("GET")
 
 	log.Println("Rotas da API configuradas com Gorilla Mux")
 }
