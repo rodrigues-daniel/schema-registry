@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "3ffa0cd6-2856-4bf3-914a-8e9369529e30",
+		"name": "7 Comandos Rápidos para Copiar e Colar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18932517"
+	},
+	"item": [
+		{
+			"name": "compatibility",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "{\"compatibility\":\"BACKWARD\"}",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/config/test",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"config",
+						"test"
+					]
+				},
+				"description": "Generated from cURL: curl -X PUT localhost:8080/config/test -d '{\"compatibility\":\"BACKWARD\"}'"
+			},
+			"response": []
+		},
+		{
+			"name": "teste rapido",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "{\"schema\":{\"type\":\"string\"}}",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/compatibility/subjects/test/versions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"compatibility",
+						"subjects",
+						"test",
+						"versions"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST localhost:8080/compatibility/subjects/test/versions -d '{\"schema\":{\"type\":\"string\"}}'"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/validate/test",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "{\"data\":\"hello world\"}",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/validate/test",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"validate",
+						"test"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST localhost:8080/validate/test -d '{\"data\":\"hello world\"}'"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "ba4bfe25-68ee-49ec-a162-d736fe9e1cee",
+		"name": "3. Payloads para Testar Compatibilidade",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18932517"
+	},
+	"item": [
+		{
+			"name": "Teste Compatível (Adicionar campo opcional)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"schema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\"type\": \"string\"},\n        \"name\": {\"type\": \"string\"},\n        \"email\": {\"type\": \"string\"},\n        \"phone\": {\"type\": \"string\"}  # NOVO CAMPO OPCIONAL\n      },\n      \"required\": [\"id\", \"name\", \"email\"]\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/compatibility/subjects/user-profile/versions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"compatibility",
+						"subjects",
+						"user-profile",
+						"versions"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/compatibility/subjects/user-profile/versions \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"schema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\"type\": \"string\"},\n        \"name\": {\"type\": \"string\"},\n        \"email\": {\"type\": \"string\"},\n        \"phone\": {\"type\": \"string\"}  # NOVO CAMPO OPCIONAL\n      },\n      \"required\": [\"id\", \"name\", \"email\"]\n    }\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Teste Incompatível (Remover campo requerido)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"schema\": {\n      \"type\": \"object\", \n      \"properties\": {\n        \"id\": {\"type\": \"string\"},\n        \"name\": {\"type\": \"string\"}\n        # EMAIL REMOVIDO - DEVE FALHAR\n      },\n      \"required\": [\"id\", \"name\"]\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/compatibility/subjects/user-profile/versions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"compatibility",
+						"subjects",
+						"user-profile",
+						"versions"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/compatibility/subjects/user-profile/versions \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"schema\": {\n      \"type\": \"object\", \n      \"properties\": {\n        \"id\": {\"type\": \"string\"},\n        \"name\": {\"type\": \"string\"}\n        # EMAIL REMOVIDO - DEVE FALHAR\n      },\n      \"required\": [\"id\", \"name\"]\n    }\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Teste Mudança de Tipo (Incompatível)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"schema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\"type\": \"integer\"},  # TIPO ALTERADO - DEVE FALHAR\n        \"name\": {\"type\": \"string\"},\n        \"email\": {\"type\": \"string\"}\n      },\n      \"required\": [\"id\", \"name\", \"email\"]\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/compatibility/subjects/user-profile/versions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"compatibility",
+						"subjects",
+						"user-profile",
+						"versions"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/compatibility/subjects/user-profile/versions \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"schema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\"type\": \"integer\"},  # TIPO ALTERADO - DEVE FALHAR\n        \"name\": {\"type\": \"string\"},\n        \"email\": {\"type\": \"string\"}\n      },\n      \"required\": [\"id\", \"name\", \"email\"]\n    }\n  }'"
+			},
+			"response": []
+		}
+	]
+}

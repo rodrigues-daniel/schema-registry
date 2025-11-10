@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "4b4b96f2-8fec-4f04-819e-a4db3cdfb86b",
+		"name": "6  Testes de Erro Propositais",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18932517"
+	},
+	"item": [
+		{
+			"name": "Dados com Schema Inválido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\"test\": \"value\"}\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/validate/unknown-subject",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"validate",
+						"unknown-subject"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/validate/unknown-subject \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"data\": {\"test\": \"value\"}\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Schema Inválido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"subject\": \"invalid-schema\",\n    \"schema_type\": \"JSON\", \n    \"schema\": {\n      \"type\": \"invalid_type\",  # TIPO INEXISTENTE\n      \"properties\": {\n        \"test\": {\"type\": \"string\"}\n      }\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/schemas/invalid-schema/versions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"schemas",
+						"invalid-schema",
+						"versions"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/schemas/invalid-schema/versions \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"subject\": \"invalid-schema\",\n    \"schema_type\": \"JSON\", \n    \"schema\": {\n      \"type\": \"invalid_type\",  # TIPO INEXISTENTE\n      \"properties\": {\n        \"test\": {\"type\": \"string\"}\n      }\n    }\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Config com Valor Inválido",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"compatibility\": \"INVALID_VALUE\"  # VALOR INEXISTENTE\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/config/test-subject",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"config",
+						"test-subject"
+					]
+				},
+				"description": "Generated from cURL: curl -X PUT http://localhost:8080/config/test-subject \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"compatibility\": \"INVALID_VALUE\"  # VALOR INEXISTENTE\n  }'"
+			},
+			"response": []
+		}
+	]
+}

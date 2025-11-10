@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "8760f8f0-5bd9-4ce1-8c89-6fe9ad2c3e67",
+		"name": "1. Payloads para Configuração",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18932517"
+	},
+	"item": [
+		{
+			"name": "BACKWARD compatibility",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"compatibility\": \"BACKWARD\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/config/user-profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"config",
+						"user-profile"
+					]
+				},
+				"description": "Generated from cURL: curl -X PUT http://localhost:8080/config/user-profile \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"compatibility\": \"BACKWARD\"\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "FORWARD compatibility",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"compatibility\": \"FORWARD\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/config/order-events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"config",
+						"order-events"
+					]
+				},
+				"description": "Generated from cURL: curl -X PUT http://localhost:8080/config/order-events \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"compatibility\": \"FORWARD\"\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "FULL compatibility",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"compatibility\": \"FULL\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/config/product-updates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"config",
+						"product-updates"
+					]
+				},
+				"description": "Generated from cURL: curl -X PUT http://localhost:8080/config/product-updates \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"compatibility\": \"FULL\"\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "NONE (sem verificação)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"compatibility\": \"NONE\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/config/temp-data",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"config",
+						"temp-data"
+					]
+				},
+				"description": "Generated from cURL: curl -X PUT http://localhost:8080/config/temp-data \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"compatibility\": \"NONE\"\n  }'"
+			},
+			"response": []
+		}
+	]
+}

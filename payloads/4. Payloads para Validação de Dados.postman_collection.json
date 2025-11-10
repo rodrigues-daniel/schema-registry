@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "2cb11f46-209d-45dc-81b4-99bb448d9843",
+		"name": "4. Payloads para Validação de Dados",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18932517"
+	},
+	"item": [
+		{
+			"name": "Dados Válidos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n      \"id\": \"usr_123456\",\n      \"name\": \"João Silva\", \n      \"email\": \"joao.silva@email.com\"\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/validate/user-profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"validate",
+						"user-profile"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/validate/user-profile \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"data\": {\n      \"id\": \"usr_123456\",\n      \"name\": \"João Silva\", \n      \"email\": \"joao.silva@email.com\"\n    }\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Dados com Campo Extra (Válido se schema permitir)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n      \"id\": \"usr_123456\",\n      \"name\": \"Maria Santos\",\n      \"email\": \"maria.santos@email.com\",\n      \"phone\": \"+55-11-99999-9999\"  # CAMPO EXTRA\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/validate/user-profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"validate",
+						"user-profile"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/validate/user-profile \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"data\": {\n      \"id\": \"usr_123456\",\n      \"name\": \"Maria Santos\",\n      \"email\": \"maria.santos@email.com\",\n      \"phone\": \"+55-11-99999-9999\"  # CAMPO EXTRA\n    }\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Dados Inválidos (Campo Faltando)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n      \"id\": \"usr_123456\",\n      \"name\": \"Carlos Oliveira\"\n      # EMAIL FALTANDO - DEVE FALHAR\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/validate/user-profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"validate",
+						"user-profile"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/validate/user-profile \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"data\": {\n      \"id\": \"usr_123456\",\n      \"name\": \"Carlos Oliveira\"\n      # EMAIL FALTANDO - DEVE FALHAR\n    }\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Dados Inválidos (Tipo Errado)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n      \"id\": 123456,  # DEVERIA SER STRING\n      \"name\": \"Ana Costa\",\n      \"email\": \"ana.costa@email.com\"\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/validate/user-profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"validate",
+						"user-profile"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/validate/user-profile \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"data\": {\n      \"id\": 123456,  # DEVERIA SER STRING\n      \"name\": \"Ana Costa\",\n      \"email\": \"ana.costa@email.com\"\n    }\n  }'"
+			},
+			"response": []
+		}
+	]
+}

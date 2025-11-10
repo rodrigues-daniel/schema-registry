@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "f108e248-b8fd-4537-915a-d30b0fb471b2",
+		"name": "5 Payloads para Orders (Exemplo Completo)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18932517"
+	},
+	"item": [
+		{
+			"name": "Schema de Order Completo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"subject\": \"order-v1\",\n    \"schema_type\": \"JSON\",\n    \"schema\": {\n      \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"order_id\": {\"type\": \"string\", \"format\": \"uuid\"},\n        \"customer_id\": {\"type\": \"string\"},\n        \"customer_info\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\"type\": \"string\"},\n            \"email\": {\"type\": \"string\", \"format\": \"email\"},\n            \"phone\": {\"type\": \"string\"}\n          },\n          \"required\": [\"name\", \"email\"]\n        },\n        \"items\": {\n          \"type\": \"array\",\n          \"minItems\": 1,\n          \"items\": {\n            \"type\": \"object\", \n            \"properties\": {\n              \"product_id\": {\"type\": \"string\"},\n              \"sku\": {\"type\": \"string\"},\n              \"name\": {\"type\": \"string\"},\n              \"quantity\": {\"type\": \"integer\", \"minimum\": 1},\n              \"unit_price\": {\"type\": \"number\", \"minimum\": 0},\n              \"total_price\": {\"type\": \"number\", \"minimum\": 0}\n            },\n            \"required\": [\"product_id\", \"quantity\", \"unit_price\"]\n          }\n        },\n        \"totals\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"subtotal\": {\"type\": \"number\", \"minimum\": 0},\n            \"tax\": {\"type\": \"number\", \"minimum\": 0},\n            \"shipping\": {\"type\": \"number\", \"minimum\": 0},\n            \"discount\": {\"type\": \"number\", \"minimum\": 0},\n            \"total\": {\"type\": \"number\", \"minimum\": 0}\n          },\n          \"required\": [\"subtotal\", \"total\"]\n        },\n        \"shipping_address\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"street\": {\"type\": \"string\"},\n            \"city\": {\"type\": \"string\"},\n            \"state\": {\"type\": \"string\"},\n            \"zip_code\": {\"type\": \"string\"},\n            \"country\": {\"type\": \"string\", \"default\": \"BR\"}\n          },\n          \"required\": [\"street\", \"city\", \"state\", \"country\"]\n        },\n        \"status\": {\"type\": \"string\", \"enum\": [\"created\", \"paid\", \"shipped\", \"delivered\", \"cancelled\"]},\n        \"created_at\": {\"type\": \"string\", \"format\": \"date-time\"},\n        \"updated_at\": {\"type\": \"string\", \"format\": \"date-time\"}\n      },\n      \"required\": [\"order_id\", \"customer_id\", \"items\", \"totals\", \"status\"]\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/schemas/order-v1/versions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"schemas",
+						"order-v1",
+						"versions"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/schemas/order-v1/versions \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"subject\": \"order-v1\",\n    \"schema_type\": \"JSON\",\n    \"schema\": {\n      \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"order_id\": {\"type\": \"string\", \"format\": \"uuid\"},\n        \"customer_id\": {\"type\": \"string\"},\n        \"customer_info\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\"type\": \"string\"},\n            \"email\": {\"type\": \"string\", \"format\": \"email\"},\n            \"phone\": {\"type\": \"string\"}\n          },\n          \"required\": [\"name\", \"email\"]\n        },\n        \"items\": {\n          \"type\": \"array\",\n          \"minItems\": 1,\n          \"items\": {\n            \"type\": \"object\", \n            \"properties\": {\n              \"product_id\": {\"type\": \"string\"},\n              \"sku\": {\"type\": \"string\"},\n              \"name\": {\"type\": \"string\"},\n              \"quantity\": {\"type\": \"integer\", \"minimum\": 1},\n              \"unit_price\": {\"type\": \"number\", \"minimum\": 0},\n              \"total_price\": {\"type\": \"number\", \"minimum\": 0}\n            },\n            \"required\": [\"product_id\", \"quantity\", \"unit_price\"]\n          }\n        },\n        \"totals\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"subtotal\": {\"type\": \"number\", \"minimum\": 0},\n            \"tax\": {\"type\": \"number\", \"minimum\": 0},\n            \"shipping\": {\"type\": \"number\", \"minimum\": 0},\n            \"discount\": {\"type\": \"number\", \"minimum\": 0},\n            \"total\": {\"type\": \"number\", \"minimum\": 0}\n          },\n          \"required\": [\"subtotal\", \"total\"]\n        },\n        \"shipping_address\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"street\": {\"type\": \"string\"},\n            \"city\": {\"type\": \"string\"},\n            \"state\": {\"type\": \"string\"},\n            \"zip_code\": {\"type\": \"string\"},\n            \"country\": {\"type\": \"string\", \"default\": \"BR\"}\n          },\n          \"required\": [\"street\", \"city\", \"state\", \"country\"]\n        },\n        \"status\": {\"type\": \"string\", \"enum\": [\"created\", \"paid\", \"shipped\", \"delivered\", \"cancelled\"]},\n        \"created_at\": {\"type\": \"string\", \"format\": \"date-time\"},\n        \"updated_at\": {\"type\": \"string\", \"format\": \"date-time\"}\n      },\n      \"required\": [\"order_id\", \"customer_id\", \"items\", \"totals\", \"status\"]\n    }\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Dados de Order Válidos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n      \"order_id\": \"ord_abc123def456\",\n      \"customer_id\": \"cust_789xyz\",\n      \"customer_info\": {\n        \"name\": \"Fernanda Lima\",\n        \"email\": \"fernanda.lima@email.com\",\n        \"phone\": \"+55-11-98888-7777\"\n      },\n      \"items\": [\n        {\n          \"product_id\": \"prod_001\",\n          \"sku\": \"SKU-12345\",\n          \"name\": \"Smartphone XYZ\",\n          \"quantity\": 1,\n          \"unit_price\": 999.99,\n          \"total_price\": 999.99\n        },\n        {\n          \"product_id\": \"prod_002\", \n          \"sku\": \"SKU-67890\",\n          \"name\": \"Capinha Protetora\",\n          \"quantity\": 1,\n          \"unit_price\": 29.99,\n          \"total_price\": 29.99\n        }\n      ],\n      \"totals\": {\n        \"subtotal\": 1029.98,\n        \"tax\": 144.20,\n        \"shipping\": 15.00,\n        \"discount\": 0,\n        \"total\": 1189.18\n      },\n      \"shipping_address\": {\n        \"street\": \"Rua das Flores, 123\",\n        \"city\": \"São Paulo\",\n        \"state\": \"SP\", \n        \"zip_code\": \"01234-567\",\n        \"country\": \"BR\"\n      },\n      \"status\": \"created\",\n      \"created_at\": \"2024-01-15T10:30:00Z\",\n      \"updated_at\": \"2024-01-15T10:30:00Z\"\n    }\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/validate/order-v1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"validate",
+						"order-v1"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/validate/order-v1 \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"data\": {\n      \"order_id\": \"ord_abc123def456\",\n      \"customer_id\": \"cust_789xyz\",\n      \"customer_info\": {\n        \"name\": \"Fernanda Lima\",\n        \"email\": \"fernanda.lima@email.com\",\n        \"phone\": \"+55-11-98888-7777\"\n      },\n      \"items\": [\n        {\n          \"product_id\": \"prod_001\",\n          \"sku\": \"SKU-12345\",\n          \"name\": \"Smartphone XYZ\",\n          \"quantity\": 1,\n          \"unit_price\": 999.99,\n          \"total_price\": 999.99\n        },\n        {\n          \"product_id\": \"prod_002\", \n          \"sku\": \"SKU-67890\",\n          \"name\": \"Capinha Protetora\",\n          \"quantity\": 1,\n          \"unit_price\": 29.99,\n          \"total_price\": 29.99\n        }\n      ],\n      \"totals\": {\n        \"subtotal\": 1029.98,\n        \"tax\": 144.20,\n        \"shipping\": 15.00,\n        \"discount\": 0,\n        \"total\": 1189.18\n      },\n      \"shipping_address\": {\n        \"street\": \"Rua das Flores, 123\",\n        \"city\": \"São Paulo\",\n        \"state\": \"SP\", \n        \"zip_code\": \"01234-567\",\n        \"country\": \"BR\"\n      },\n      \"status\": \"created\",\n      \"created_at\": \"2024-01-15T10:30:00Z\",\n      \"updated_at\": \"2024-01-15T10:30:00Z\"\n    }\n  }'"
+			},
+			"response": []
+		}
+	]
+}

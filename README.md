@@ -142,6 +142,20 @@ Resposta esperada:
 
 ---
 
+## 🧰 Payloads para Testes (Postman)
+
+Na pasta [`payloads/`](./payloads), você encontrará diversos arquivos JSON contendo **exemplos de requisições** para testar os endpoints do Schema Registry.
+
+Esses arquivos podem ser **importados diretamente no Postman** para facilitar o envio de requisições.
+
+### 👉 Como usar no Postman:
+1. Abra o **Postman**.  
+2. Clique em **Import** → **Upload Files**.  
+3. Selecione os arquivos `.json` dentro da pasta `payloads/`.  
+4. Execute as requisições conforme desejar (registro de schemas, compatibilidade, etc).
+
+---
+
 ## 📊 Observabilidade
 
 - **Métricas:** [http://localhost:8080/metrics](http://localhost:8080/metrics)  
@@ -228,10 +242,6 @@ receivers:
         channel: '#alerts'
         title: 'Schema Registry Alert'
 ```
-
----
-
-
 
 ---
 
