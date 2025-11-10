@@ -89,17 +89,23 @@ curl http://localhost:8080/health   # Básico
 
 #### Registrar Schema
 ```bash
-curl -X POST http://localhost:8080/schemas/user/versions   -H "Content-Type: application/json"   -d '{
+{
+    "subject": "user-profile",
+    "schema_type": "JSON",
     "schema": {
-      "type": "record",
-      "name": "User",
-      "fields": [
-        {"name": "id", "type": "int"},
-        {"name": "name", "type": "string"},
-        {"name": "email", "type": "string"}
-      ]
+      "type": "object",
+      "properties": {
+        "id": {"type": "string"},
+        "name": {"type": "string"},
+        "email": {"type": "string"}
+      },
+      "required": ["id", "name", "email"]
+    },
+    "metadata": {
+      "team": "identity-service",
+      "domain": "user-management"
     }
-  }'
+  }
 ```
 
 #### Recuperar Schema
