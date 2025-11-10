@@ -1,0 +1,46 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    environment: 'development'
+    project: 'schema-registry'
+
+# Alerting (opcional)
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets: []
+
+rule_files:
+  # - "alert_rules.yml"
+
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    scrape_interval: 30s
+
+  # Schema Registry Application Metrics
+  - job_name: 'schema-registry-app'
+    static_configs:
+      - targets: ['schema-registry:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'schema-registry-app'
+
+  # NATS Server Metrics
+  - job_name: 'nats-server'
+    static_configs:
+      - targets: ['schema-registry:8222']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'nats-server'
