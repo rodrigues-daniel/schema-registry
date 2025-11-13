@@ -65,9 +65,13 @@ func main() {
 	// Demonstrar funcionamento do KV
 	demonstrateKVUsage(kv)
 
+	startMenssageria(js)
+	configureConsumer(js)
+
 	// Iniciar servidores e aguardar shutdown
 
 	startServers(server)
+
 }
 
 // initializeNATSWithJetStream configura e inicia o NATS com JetStream
@@ -122,6 +126,7 @@ func initializeNATSWithJetStream() (nats.JetStreamContext, nats.KeyValue, *nats.
 		nats.MaxWait(10*time.Second),
 		nats.PublishAsyncMaxPending(256),
 	)
+
 	if err != nil {
 		nc.Close()
 		ns.Shutdown()
@@ -397,4 +402,60 @@ func getEnvAsInt(key string, defaultValue int) int {
 		}
 	}
 	return defaultValue
+}
+
+func startMenssageria(js nats.JetStreamContext) {
+	streamname := "EVENTOS_SCHEMA"
+
+	if info, _ := js.StreamInfo(streamname); info != nil {
+		log.Printf("Stream %s já existe, pulando criação", streamname)
+		return
+	}
+
+	_, err := js.AddStream(&nats.StreamConfig{
+		Name:     streamname,
+		Subjects: []string{"schema.*"},
+		Storage:  nats.FileStorage,
+	})
+	if err != nil {
+		log.Fatalf("Erro ao criar stream %s: %v", streamname, err)
+	}
+	log.Printf("Stream %s criada com sucesso para eventos de schema", streamname)
+}
+
+func configureConsumer(js nats.JetStreamContext) {
+	streamName := "EVENTOS_SCHEMA"
+	consumerName := "SCHEMA_CONSUMER"
+
+	filter := "schema.user"
+
+	// cria o consumer pull-based
+	_, err := js.AddConsumer(streamName, &nats.ConsumerConfig{
+		Durable:       consumerName,
+		AckPolicy:     nats.AckExplicitPolicy,
+		FilterSubject: filter,
+	})
+	if err != nil {
+		log.Fatalf("Erro ao criar consumer %s: %v", consumerName, err)
+	}
+
+	// cria o subscriber pull-based
+	sub, err := js.PullSubscribe(filter, consumerName)
+	if err != nil {
+		log.Fatalf("Erro ao criar PullSubscribe: %v", err)
+	}
+
+	log.Printf("Consumer %s aguardando mensagens...", consumerName)
+
+	for {
+		msgs, err := sub.Fetch(5)
+		if err != nil {
+			log.Printf("Erro ao buscar mensagens: %v", err)
+			continue
+		}
+		for _, m := range msgs {
+			log.Printf("Recebida: %s", string(m.Data))
+			m.Ack()
+		}
+	}
 }
