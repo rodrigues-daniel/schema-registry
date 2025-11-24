@@ -111,27 +111,28 @@ func (s *Storage) GetLatestSchema(ctx context.Context, subject string) (*models.
 
 // GetSchemaVersions lista todas as versões de um subject
 func (s *Storage) GetSchemaVersions(ctx context.Context, subject string) ([]int, error) {
-	prefix := fmt.Sprintf("schemas.%s.", subject)
+	// prefix := fmt.Sprintf("schemas.%s.", subject)
 
-	keys, err := s.kv.Keys()
-	if err != nil {
-		if err == nats.ErrNoKeysFound {
-			return []int{}, nil
-		}
-		return nil, fmt.Errorf("failed to list keys: %w", err)
-	}
+	// keys, err := s.kv.Keys()
+	// if err != nil {
+	// 	if err == nats.ErrNoKeysFound {
+	// 		return []int{}, nil
+	// 	}
+	// 	return nil, fmt.Errorf("failed to list keys: %w", err)
+	// }
 
-	var versions []int
-	for _, key := range keys {
-		if len(key) > len(prefix) && key[:len(prefix)] == prefix {
-			var version int
-			_, err := fmt.Sscanf(key, "schemas:%s:%d", &subject, &version)
-			if err == nil {
-				versions = append(versions, version)
-			}
-		}
-	}
+	// var versions []int
+	// for _, key := range keys {
+	// 	if len(key) > len(prefix) && key[:len(prefix)] == prefix {
+	// 		var version int
+	// 		_, err := fmt.Sscanf(key, "schemas:%s:%d", &subject, &version)
+	// 		if err == nil {
+	// 			versions = append(versions, version)
+	// 		}
+	// 	}
+	// }
 
+	version = []int{0}
 	sort.Ints(versions)
 	return versions, nil
 }
