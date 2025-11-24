@@ -112,25 +112,8 @@ curl http://localhost:8080/health   # Básico
 ```bash
 curl http://localhost:8080/schemas/user-profile/versions/1
 
-curl --location --request GET 'http://localhost:8080/schemas/user-profile/versions/latest' \
---header 'Content-Type: application/json' \
---data '{
-    "subject": "user-profile",
-    "schema_type": "JSON",
-    "schema": {
-      "type": "object",
-      "properties": {
-        "id": {"type": "string"},
-        "name": {"type": "string"},
-        "email": {"type": "string"}
-      },
-      "required": ["id", "name", "email"]
-    },
-    "metadata": {
-      "team": "identity-service",
-      "domain": "user-management"
-    }
-  }'
+curl 'http://localhost:8080/schemas/user-profile/versions/latest
+
 
 ```
 
