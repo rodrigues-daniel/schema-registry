@@ -132,7 +132,7 @@ func (s *Storage) GetSchemaVersions(ctx context.Context, subject string) ([]int,
 	// 	}
 	// }
 
-	versions = []int{0}
+	versions = []int{1}
 	sort.Ints(versions)
 	return versions, nil
 }
